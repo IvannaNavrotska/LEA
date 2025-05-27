@@ -35,6 +35,30 @@ def GenerateRoundKeys(K):
 
     return round_keys
 
+
+def EncryptBlock(P, round_keys):
+
+    Ki = round_keys
+
+    X = []
+
+    C = []
+    
+    for i in range(0, len(K), 8):
+        X.append(int(K[i:i+8], 16))
+
+    for i in range(28):
+
+        X0 = l_shift(((X[0] ^ Ki[0]) + (X[1] ^ Ki[1])) & 0xFFFFFFFF, 9)
+        X1 = r_shift(((X[1] ^ Ki[2]) + (X[2] ^ Ki[3])) & 0xFFFFFFFF, 5)
+        X2 = r_shift(((X[2] ^ Ki[4]) + (X[3] ^ Ki[5])) & 0xFFFFFFFF, 3)
+        X3 = X[0]
+
+        C.append(C[:])
+
+    return C
+
+
 k = '3c2d1e0f78695a4bb4a59687f0e1d2c3c3d2e1f08796a5b4'
 round_keys = GenerateRoundKeys(k)
 
