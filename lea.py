@@ -58,6 +58,20 @@ def EncryptBlock(P, round_keys):
     return "".join(f"{i:08x}" for i in X)
 
 
+def DecryptBlock(C, round_keys):
+
+    X = []
+
+    for i in range(0, len(C), 8):
+        X.append(int(C[i:i+8], 16))
+
+    for i in range(28):
+
+        Ki = round_keys[i]
+    
+
+
+    
 if __name__ == "__main__":
     
     key =  "3c2d1e0f78695a4bb4a59687f0e1d2c3c3d2e1f08796a5b4"
