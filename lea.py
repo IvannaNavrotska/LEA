@@ -65,11 +65,19 @@ def DecryptBlock(C, round_keys):
     for i in range(0, len(C), 8):
         X.append(int(C[i:i+8], 16))
 
-    for i in range(28):
+    for i in range(27, -1, -1):
+        
+        Ki = round_keys[i] 
+        
+        X0 = X[3]
+        X1 = ((r_shift(X[0], 9)  - (X0 ^ Ki[0])) & 0xFFFFFFFF) ^ Ki[1]
+        X2 = ((l_shift(X[1], 5)  - (X1 ^ Ki[2])) & 0xFFFFFFFF) ^ Ki[3]
+        X3 = ((l_shift(X[2], 3)  - (X2 ^ Ki[4])) & 0xFFFFFFFF) ^ Ki[5]
+        
+        X = [X0, X1, X2, X3]
 
-        Ki = round_keys[i]
-    
-
+    #return X
+    return "".join(f"{i:08x}" for i in X)
 
     
 if __name__ == "__main__":
@@ -79,5 +87,7 @@ if __name__ == "__main__":
 
     k  = GenerateRoundKeys(key)
     c  = EncryptBlock(p, k)
-
+    pp = DecryptBlock(c, k)
+    
     print("cipher =", c)
+    print("plain =", pp)
