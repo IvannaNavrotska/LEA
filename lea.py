@@ -38,30 +38,32 @@ def GenerateRoundKeys(K):
 
 def EncryptBlock(P, round_keys):
 
-    Ki = round_keys
-
     X = []
-
-    C = []
     
-    for i in range(0, len(K), 8):
-        X.append(int(K[i:i+8], 16))
+    for i in range(0, len(P), 8):
+        X.append(int(P[i:i+8], 16))
 
     for i in range(28):
+
+        Ki = round_keys[i]
 
         X0 = l_shift(((X[0] ^ Ki[0]) + (X[1] ^ Ki[1])) & 0xFFFFFFFF, 9)
         X1 = r_shift(((X[1] ^ Ki[2]) + (X[2] ^ Ki[3])) & 0xFFFFFFFF, 5)
         X2 = r_shift(((X[2] ^ Ki[4]) + (X[3] ^ Ki[5])) & 0xFFFFFFFF, 3)
         X3 = X[0]
 
-        C.append(C[:])
+        X = [X0, X1, X2, X3]
 
-    return C
+    #return X
+    return "".join(f"{i:08x}" for i in X)
 
 
-k = '3c2d1e0f78695a4bb4a59687f0e1d2c3c3d2e1f08796a5b4'
-round_keys = GenerateRoundKeys(k)
+if __name__ == "__main__":
+    
+    key =  "3c2d1e0f78695a4bb4a59687f0e1d2c3c3d2e1f08796a5b4"
+    p  =  "23222120272625242b2a29282f2e2d2c"
 
-for i, j in enumerate(round_keys):
-    print(f"Раунд {i+1:2}:",
-          " ".join(hex(x)[2:].zfill(8) for x in j))
+    k  = GenerateRoundKeys(key)
+    c  = EncryptBlock(p, k)
+
+    print("cipher =", c)
