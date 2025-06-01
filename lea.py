@@ -118,7 +118,6 @@ def EncryptBlock(P, round_keys, Nr):
 
         X = [X0, X1, X2, X3]
 
-    #return X
     return "".join(f"{i:08x}" for i in X)
 
 
@@ -140,7 +139,6 @@ def DecryptBlock(C, round_keys, Nr):
         
         X = [X0, X1, X2, X3]
 
-    #return X
     return "".join(f"{i:08x}" for i in X)
 
 
@@ -161,75 +159,25 @@ def EncryptData(data, key, Nr):
         e_blocks.append(encrypted)
 
     return "".join(e_blocks)
-    #return e_blocks
 
 
 def DecryptData(data, key, Nr):
 
+    if len(data)%32 != 0:
+        raise Error('Довжина вхідних даних не поділяється на розмір блоку')
+        
     blocks = []
     
     d_blocks = []
-    
-    if len(data)%32 == 0:
 
-        for i in range(0, len(data), 32):
-            blocks.append(data[i:i+32])
+    for i in range(0, len(data), 32):
+        blocks.append(data[i:i+32])
         
-        for block in blocks:
-            decrypted = DecryptBlock(block, key, Nr)
-            d_blocks.append(decrypted)
-                
-    else:
-        raise Error('Довжина вхідних даних не поділяється на розмір блоку')
+    for block in blocks:
+        decrypted = DecryptBlock(block, key, Nr)
+        d_blocks.append(decrypted)
 
-    #return "".join(e_blocks)
-    return d_blocks
-
-
-#128
-p1 =  '13121110171615141b1a19181f1e1d1c'
-c1 = '354ec89f18c6c628a7c73255fd8b6404'
-
-k1 = '3c2d1e0f78695a4bb4a59687f0e1d2c3'
-key1  = GenerateRoundKeys128(k1)
-
-Nr1 = 24
-
-e_block1 = EncryptData(p1, key1, Nr1)
-print(e_block1)
-
-d_block1 = DecryptData(c1, key1, Nr1)
-print(d_block1)
-
-#192
-p2 =  '23222120272625242b2a29282f2e2d2c'
-c2 = '325eb96f871bad5a35f5dc8cf2c67476'
-
-k2 = '3c2d1e0f78695a4bb4a59687f0e1d2c3c3d2e1f08796a5b4'
-key2  = GenerateRoundKeys192(k2)
-
-Nr2 = 28
-
-e_block2 = EncryptData(p2, key2, Nr2)
-print(e_block2)
-
-d_block2 = DecryptData(c2, key2, Nr2)
-print(d_block2)
-
-
-#256
-p3 =  '33323130373635343b3a39383f3e3d3c'
-c3 = 'f6af51d6c189b147ca00893a97e1f927'
-
-k3 = '3c2d1e0f78695a4bb4a59687f0e1d2c3c3d2e1f08796a5b44b5a69780f1e2d3c'
-key3  = GenerateRoundKeys256(k3)
-
-Nr3 = 32
-
-e_block3 = EncryptData(p3, key3, Nr3)
-print(e_block3)
-
-d_block3 = DecryptData(c3, key3, Nr3)
-print(d_block3)
+    return "".join(d_blocks)
+    
 
 
