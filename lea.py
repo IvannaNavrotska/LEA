@@ -80,32 +80,34 @@ def DecryptBlock(C, round_keys):
     return "".join(f"{i:08x}" for i in X)
 
 
-def EncryptData(data):
+def EncryptData(data, key):
 
     while len(data)%32 != 0:
         data += '0'
-    print(data)
+    #print(data)
     blocks = []
 
     for i in range(0, len(data), 32):
-        blocks.append(int(data[i:i+32], 16))
+        blocks.append(data[i:i+32])
+       
+    e_blocks = []
+    
+    for block in blocks:
+        encrypted = EncryptBlock(block, key)
+        e_blocks.append(encrypted)
+       
+    return e_blocks
 
-    return blocks
-        
 
-data ='23222120272625242b2a29282f2e2d2c23222120272625242b2a29282f2e'   
-block = EncryptData(data)
+
+p =  "23222120272625242b2a29282f2e2d2c"
+c = '325eb96f 871bad5a 35f5dc8c f2c67476'
+
+k = "3c2d1e0f78695a4bb4a59687f0e1d2c3c3d2e1f08796a5b4"
+key  = GenerateRoundKeys(k)
+
+data ='23222120272625242b2a29282f2e2d2c23222120272625242b2a29282f2e2d2c'
+
+block = EncryptData(data, key)
 print(block)
 
-    
-if __name__ == "__main__":
-    
-    key =  "3c2d1e0f78695a4bb4a59687f0e1d2c3c3d2e1f08796a5b4"
-    p  =  "23222120272625242b2a29282f2e2d2c"
-
-    k  = GenerateRoundKeys(key)
-    c  = EncryptBlock(p, k)
-    pp = DecryptBlock(c, k)
-    
-    print("cipher =", c)
-    print("plain =", pp)
