@@ -79,6 +79,24 @@ def DecryptBlock(C, round_keys):
     #return X
     return "".join(f"{i:08x}" for i in X)
 
+
+def EncryptData(data):
+
+    while len(data)%32 != 0:
+        data += '0'
+    print(data)
+    blocks = []
+
+    for i in range(0, len(data), 32):
+        blocks.append(int(data[i:i+32], 16))
+
+    return blocks
+        
+
+data ='23222120272625242b2a29282f2e2d2c23222120272625242b2a29282f2e'   
+block = EncryptData(data)
+print(block)
+
     
 if __name__ == "__main__":
     
