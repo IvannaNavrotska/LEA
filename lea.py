@@ -6,6 +6,7 @@ delta = [
     0x715ea49e,  
     0xc785da0a]
 
+
 def l_shift(x, n):
     return ((x << n) | (x >> (32 - n))) & 0xFFFFFFFF
 
@@ -84,7 +85,7 @@ def EncryptData(data, key):
 
     while len(data)%32 != 0:
         data += '0'
-    #print(data)
+        
     blocks = []
 
     for i in range(0, len(data), 32):
@@ -95,8 +96,9 @@ def EncryptData(data, key):
     for block in blocks:
         encrypted = EncryptBlock(block, key)
         e_blocks.append(encrypted)
-       
-    return e_blocks
+
+    return "".join(e_blocks)
+    #return e_blocks
 
 
 
