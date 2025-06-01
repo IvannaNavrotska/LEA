@@ -101,15 +101,39 @@ def EncryptData(data, key):
     #return e_blocks
 
 
+def DecryptData(data, key):
 
-p =  "23222120272625242b2a29282f2e2d2c"
-c = '325eb96f 871bad5a 35f5dc8c f2c67476'
+    blocks = []
+    
+    d_blocks = []
+    
+    if len(data)%32 == 0:
 
-k = "3c2d1e0f78695a4bb4a59687f0e1d2c3c3d2e1f08796a5b4"
+        for i in range(0, len(data), 32):
+            blocks.append(data[i:i+32])
+        
+        for block in blocks:
+            decrypted = DecryptBlock(block, key)
+            d_blocks.append(decrypted)
+                
+    else:
+        raise Error('Довжина вхідних даних не поділяється на розмір блоку')
+
+    #return "".join(e_blocks)
+    return d_blocks
+
+
+
+p =  '23222120272625242b2a29282f2e2d2c'
+c = '325eb96f871bad5a35f5dc8cf2c67476'
+
+k = '3c2d1e0f78695a4bb4a59687f0e1d2c3c3d2e1f08796a5b4'
 key  = GenerateRoundKeys(k)
 
-data ='23222120272625242b2a29282f2e2d2c23222120272625242b2a29282f2e2d2c'
+data_for_e ='23222120272625242b2a29282f2e2d2c23222120272625242b2a29282f2e2d2c'
+e_block = EncryptData(data_for_e, key)
+print(e_block)
 
-block = EncryptData(data, key)
-print(block)
-
+data_for_d = '325eb96f871bad5a35f5dc8cf2c67476325eb96f871bad5a35f5dc8cf2c67476'
+d_block = DecryptData(data_for_d, key)
+print(d_block)
