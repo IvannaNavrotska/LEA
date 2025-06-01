@@ -164,7 +164,7 @@ def EncryptData(data, key, Nr):
 def DecryptData(data, key, Nr):
 
     if len(data)%32 != 0:
-        raise Error('Довжина вхідних даних не поділяється на розмір блоку')
+        raise ValueError('Довжина вхідних даних не поділяється на розмір блоку')
         
     blocks = []
     
