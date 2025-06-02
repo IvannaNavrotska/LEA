@@ -8,6 +8,7 @@ def create_file(path, data):
     with open(path, 'w') as f:
         f.write(data)
 
+
 def keys(key, size):
     
     if size == 128:
@@ -21,11 +22,12 @@ def keys(key, size):
     else:
         raise ValueError('Ключ повинен бути 128, 192 або 256 біт')
 
+
 def for_user():
     
     print('Вас вітає LEA')
     
-    mode = input('Будемо шифрувати чи розшифровувати(encrypt/decrypt): ').strip().lower()
+    enc_or_dec = input('Будемо шифрувати чи розшифровувати(encrypt/decrypt): ').strip().lower()
 
     input_file = input('Введіть назву вхідного файла: ').strip()
     output_file = input('Введіть назву файла для результату: ').strip()
@@ -37,9 +39,9 @@ def for_user():
         key = open_file(key_file)
         keys, Nr = keys(key, keysize)
 
-        if mode == "encrypt":
+        if enc_or_dec == 'encrypt':
             result = EncryptData(data, keys, Nr)
-        elif mode == "decrypt":
+        elif enc_or_dec == 'decrypt':
             result = DecryptData(data, keys, Nr)
         else:
             print('Лише шифруємо та розшифровуємо')
