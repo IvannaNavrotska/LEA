@@ -180,4 +180,73 @@ def DecryptData(data, key, Nr):
     return "".join(d_blocks)
     
 
+#128
 
+print('128')
+
+p = '13121110171615141b1a19181f1e1d1c'
+c = '354ec89f18c6c628a7c73255fd8b6404'
+k = '3c2d1e0f78695a4bb4a59687f0e1d2c3'
+key  = GenerateRoundKeys128(k)
+
+Nr = 24
+        
+encrypted = EncryptBlock(p, key, Nr)
+print(f'текст для шифрування: {p}')
+print(f'очікуваний шифротекст: {c}')
+print(f'отриманий шифротекст: {encrypted}')
+print(f'співпадає? - {c == encrypted}')
+
+decrypted = DecryptBlock(c, key, Nr)
+
+print(f'текст для розшифрування: {c}')
+print(f'очікуваний розшифрований текст: {p}')
+print(f'отриманий розшифрований текст: {decrypted}')
+print(f'співпадає? - {p == decrypted}')
+
+
+#192
+print('192')
+
+p = '23222120272625242b2a29282f2e2d2c'
+c = '325eb96f871bad5a35f5dc8cf2c67476'
+k = '3c2d1e0f78695a4bb4a59687f0e1d2c3c3d2e1f08796a5b4'
+key  = GenerateRoundKeys192(k)
+
+Nr = 28
+        
+encrypted = EncryptBlock(p, key, Nr)
+print(f'текст для шифрування: {p}')
+print(f'очікуваний шифротекст: {c}')
+print(f'отриманий шифротекст: {encrypted}')
+print(f'співпадає? - {c == encrypted}')
+
+decrypted = DecryptBlock(c, key, Nr)
+
+print(f'текст для розшифрування: {c}')
+print(f'очікуваний розшифрований текст: {p}')
+print(f'отриманий розшифрований текст: {decrypted}')
+print(f'співпадає? - {p == decrypted}')
+
+#256
+print('256')
+
+p = '33323130373635343b3a39383f3e3d3c'
+c = 'f6af51d6c189b147ca00893a97e1f927'
+k = '3c2d1e0f78695a4bb4a59687f0e1d2c3c3d2e1f08796a5b44b5a69780f1e2d3c'
+key  = GenerateRoundKeys256(k)
+
+Nr = 32
+        
+encrypted = EncryptBlock(p, key, Nr)
+print(f'текст для шифрування: {p}')
+print(f'очікуваний шифротекст: {c}')
+print(f'отриманий шифротекст: {encrypted}')
+print(f'співпадає? - {c == encrypted}')
+
+decrypted = DecryptBlock(c, key, Nr)
+
+print(f'текст для розшифрування: {c}')
+print(f'очікуваний розшифрований текст: {p}')
+print(f'отриманий розшифрований текст: {decrypted}')
+print(f'співпадає? - {p == decrypted}')
