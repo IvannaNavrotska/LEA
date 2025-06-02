@@ -9,7 +9,7 @@ def create_file(path, data):
         f.write(data)
 
 
-def keys(key, size):
+def round_keys(key, size):
     
     if size == 128:
         return GenerateRoundKeys128(key), 24
@@ -36,13 +36,13 @@ def for_user():
 
     try:
         data = open_file(input_file)
-        key = open_file(key_file)
-        keys, Nr = keys(key, keysize)
+        key_data = open_file(key_file)
+        key, Nr = round_keys(key_data, keysize)
 
         if enc_or_dec == 'encrypt':
-            result = EncryptData(data, keys, Nr)
+            result = EncryptData(data, key, Nr)
         elif enc_or_dec == 'decrypt':
-            result = DecryptData(data, keys, Nr)
+            result = DecryptData(data, key, Nr)
         else:
             print('Лише шифруємо та розшифровуємо')
             return
